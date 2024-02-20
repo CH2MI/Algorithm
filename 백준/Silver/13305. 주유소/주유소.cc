@@ -18,8 +18,8 @@ int main() {
 	}
 
 	int k = 0;
-	int nowdist = 0;
-	int P = 1000000001;
+	long long nowdist = 0;
+	long long P = 1000000001;
 	long long sum = 0;
 	while (k < N) {
 
