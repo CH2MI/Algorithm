@@ -81,7 +81,7 @@ int main() {
 	int count = 0;
 
 	while (melt(count)) {
-		days++;
+		++days;
 	}
 
 	cout << days << '\n' << count;
