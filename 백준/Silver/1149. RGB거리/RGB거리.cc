@@ -3,25 +3,21 @@
 using namespace std;
 
 int main() {
+	ios_base::sync_with_stdio(false); cin.tie(NULL);
+
+	int R[1001] = { 0 };
+	int G[1001] = { 0 };
+	int B[1001] = { 0 };
+
 	int N;
 	cin >> N;
-	int** arr = new int* [N];
-	int** sum = new int* [N];
-	for (int i = 0; i < N; i++) {
-		int R, G, B;
-		cin >> R >> G >> B;
-		arr[i] = new int[3];
-		sum[i] = new int[3];
-		arr[i][0] = R; arr[i][1] = G; arr[i][2] = B;
-	}
-	sum[0][0] = arr[0][0]; sum[0][1] = arr[0][1]; sum[0][2] = arr[0][2];
 
-	int s = min({ sum[0][0], sum[0][1], sum[0][2] });
-	for (int i = 1; i < N; i++) {
-		sum[i][0] = min(sum[i - 1][1], sum[i - 1][2]) + arr[i][0];
-		sum[i][1] = min(sum[i - 1][0], sum[i - 1][2]) + arr[i][1];
-		sum[i][2] = min(sum[i - 1][0], sum[i - 1][1]) + arr[i][2];
-		s = min({ sum[i][0], sum[i][1], sum[i][2] });
+	for (int i = 1; i <= N; i++) {
+		int a, b, c;
+		cin >> a >> b >> c;
+		R[i] = min(G[i - 1], B[i - 1]) + a;
+		G[i] = min(R[i - 1], B[i - 1]) + b;
+		B[i] = min(R[i - 1], G[i - 1]) + c;
 	}
-	cout << s;
+	cout << min({ R[N], G[N], B[N] });	
 }
