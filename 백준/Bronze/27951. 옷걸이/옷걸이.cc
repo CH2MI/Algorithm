@@ -5,6 +5,7 @@ using namespace std;
 int a[3];
 
 int main() {
+    ios_base::sync_with_stdio(false); cin.tie(NULL);
     int N; cin >> N;
     vector<int> v;
     for (int i = 0; i < N; i++) {
@@ -14,20 +15,21 @@ int main() {
     }
     int U, D;
     cin >> U >> D;
-    if (U > a[0]) {
-        if (U - a[0] > a[2]) {
-            cout << "NO\n";
-            return 0;
-        }
+    
+    int t1 = 0;
+    if (U > a[0]) t1 = U - a[0];
+    if (t1 > a[2]) {
+        cout << "NO\n";
+        return 0;
     }
-    if (D > a[1]) {
-        if (D - a[1] > a[2]) {
-            cout << "NO\n";
-            return 0;
-        }
+    int t2 = a[2] - t1;
+    if (D > a[1] + t2) {
+        cout << "NO\n";
+        return 0;
     }
     cout << "YES\n";
     
+
     for (auto i : v) {
         if (i == 1) {
             cout << 'U';
@@ -38,14 +40,13 @@ int main() {
             D--;
         }
         else {
-            if (U) {
+            if (t1) {
                 cout << 'U';
-                U--;
+                t1--;
             }
             else {
                 cout << 'D';
-                D--;
             }
         }
-    }
+    } 
 }
