@@ -1,4 +1,4 @@
-# [Gold V] 이진 검색 트리 - 5639 
+# [Gold IV] 이진 검색 트리 - 5639 
 
 [문제 링크](https://www.acmicpc.net/problem/5639) 
 
