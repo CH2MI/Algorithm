@@ -24,8 +24,7 @@ int main() {
 
 	for (int i = 0; i < N; i++) {
 		for (int j = 0; j < N - i; j++) {
-			if (!i) dp[j][j] = true;
-			else dp[j][j + i] = Is_Palindrome(j, j + i);
+			dp[j][j + i] = Is_Palindrome(j, j + i);
 		}
 	}
 
