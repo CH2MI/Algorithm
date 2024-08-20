@@ -8,7 +8,7 @@ int F, S, G, U, D;
 int BFS() {
 	vector<int> visited(F);
 	queue<pair<int, int>> q;
-	q.push({ 0, S });
+	q.emplace(0, S);
 
 	while (!q.empty()) {
 		auto [count, s] = q.front();
@@ -19,12 +19,12 @@ int BFS() {
 		int u = s + U;
 		if (u >= 1 && u <= F && !visited[u - 1]) {
 			visited[u - 1] = true;
-			q.push({ count + 1, u });
+			q.emplace(count + 1, u);
 		}
 		int d = s - D;
 		if (d >= 1 && d <= F && !visited[d - 1]) {
 			visited[d - 1] = true;
-			q.push({ count + 1, d });
+			q.emplace(count + 1, d);
 		}
 	}
 	
