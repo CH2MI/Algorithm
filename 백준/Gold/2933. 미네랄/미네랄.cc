@@ -51,9 +51,6 @@ void Throw(int r, int direction) {
 	queue<int> q;
 	q.push(c);
 
-	bool isCollsion = false;
-	int clusternum = 0;
-
 	while (!q.empty()) {
 		int y = q.front();
 		q.pop();
@@ -124,6 +121,7 @@ void Drop() {
 		}
 	}
 
+	// 클러스터를 이동한다.
 	for (int r = R - 1; r >= 0; r--) {
 		for (int c = 0; c < C; c++) {
 			if (adj[r][c] == '.' || !drop[r][c]) continue;
