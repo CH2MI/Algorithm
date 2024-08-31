@@ -5,43 +5,10 @@ using namespace std;
 
 int R, C;
 vector<string> adj;
-vector<vector<int>> cluster;
 
 int dR[4] = { -1, 1, 0, 0 };
 int dC[4] = { 0, 0, -1, 1 };
 
-void Clustering() {
-	int count = 1;
-	for (int i = 0; i < R; i++) {
-		for (int j = 0; j < C; j++) {
-			if (adj[i][j] == '.') {
-				cluster[i][j] = 0;
-				continue;
-			}
-			if (cluster[i][j]) continue;
-
-			queue<pair<int, int>> q;
-			q.push({ i, j });
-			while (!q.empty()) {
-				auto [r, c] = q.front();
-				q.pop();
-
-				if (r < 0 || r >= R || c < 0 || c >= C) continue;
-				if (adj[r][c] == '.') continue;
-				if (cluster[r][c]) continue;
-
-				cluster[r][c] = count;
-
-				for (int k = 0; k < 4; k++) {
-					int x = r + dR[k];
-					int y = c + dC[k];
-					q.push({ x, y });
-				}
-			}
-			count++;
-		}
-	}
-}
 
 void Throw(int r, int direction) {
 
@@ -56,12 +23,12 @@ void Throw(int r, int direction) {
 		q.pop();
 
 		// 끝에 다다랐을 때
-		if (y < 0 || y >= C) return;
+		if (y < 0 || y >= C) break;
 
 		// 미네랄과 충돌햇을 때
 		if (adj[r][y] == 'x') {
 			adj[r][y] = '.';
-			return;
+			break;
 		}
 		q.push(y + direction);
 	}
@@ -71,6 +38,8 @@ void Throw(int r, int direction) {
 void Drop() {
 	vector<vector<bool>> drop(R, vector<bool>(C, true));
 	int i = R - 1;
+
+	// 바닥과 연결되어있는 클러스터는 떨어지지 않는다.
 	for (int j = 0; j < C; j++) {
 		if (adj[i][j] == '.') continue;
 		if (!drop[i][j]) continue;
@@ -137,7 +106,6 @@ int main() {
 	cin >> R >> C;
 
 	adj.assign(R, string());
-	cluster.assign(R, vector<int>(C, 0));
 
 	for (auto& c : adj)
 		cin >> c;
@@ -147,12 +115,13 @@ int main() {
 	bool isLeft = true;
 
 	while (N--) {
-		Clustering();
-
 		int h;
 		cin >> h;
 
+		// 막대기를 던진다.
 		Throw(h, isLeft ? 1 : -1);
+
+		// 떨어질 클러스터가 있으면 떨어트린다.
 		Drop();
 
 		isLeft = !isLeft;
