@@ -1,28 +1,21 @@
 #include <iostream>
-#include <algorithm>
+#include <vector>
 using namespace std;
 
 int main() {
-	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
+	ios_base::sync_with_stdio(false);
+	cin.tie(nullptr); cout.tie(nullptr);
 
-	int N;
-	cin >> N;
+	int X; cin >> X;
 
-	int* dp = new int[N + 1]();
-	dp[1] = 0;
-	if (N > 1) dp[2] = 1;
-	if (N > 2) dp[3] = 1;
-	for (int i = 4; i <= N; i++) {
-		int a = 100000000, b = 100000000, c = dp[i - 1];
-		if (i % 3 == 0) {
-			a = dp[i / 3];
-		}
-		if (i % 2 == 0) {
-			b = dp[i / 2];
-		}
-		dp[i] = min({ a, b, c }) + 1;
+	vector<int> dp(X + 1);
+	dp[2] = 1; dp[3] = 1;
+	
+	for (int i = 4; i <= X; i++) {
+		int mn = dp[i - 1];
+		if (i % 2 == 0) mn = min(mn, dp[i / 2]);
+		if (i % 3 == 0) mn = min(mn, dp[i / 3]);
+		dp[i] = mn + 1;
 	}
-
-	cout << dp[N];
-	delete[] dp;
+	cout << dp[X];
 }
