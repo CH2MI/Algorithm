@@ -1,54 +1,45 @@
 #include <iostream>
 #include <vector>
-#include <climits>
-#include <queue>
-#define INF INT_MAX
+#define INF (int)1e9
 using namespace std;
 
-void dijkstra(vector<vector<pair<int, int>>>& v, vector<int>& dist, int start) {
-	priority_queue<pair<int, int>> pq;
+int n;
+vector<vector<int>> adj;
 
-	dist[start] = 0;
-	pq.push({ 0, start });
-
-	while (!pq.empty()) {
-		int cur_dist = -pq.top().first;
-		int cur_node = pq.top().second;
-		pq.pop();
-
-		if (cur_dist != dist[cur_node]) continue;
-
-		for (auto i : v[cur_node]) {
-			int nxt_dist = cur_dist + i.second;
-			if (nxt_dist < dist[i.first]) {
-				dist[i.first] = nxt_dist;
-				pq.push({ -nxt_dist, i.first });
+void Floyd() {
+	for (int k = 0; k < n; k++) {
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < n; j++) {
+				if (i == j) {
+					adj[i][j] = 0;
+				}
+				else {
+					adj[i][j] = min(adj[i][j], adj[i][k] + adj[k][j]);
+				}
 			}
 		}
 	}
 }
 
 int main() {
-	ios_base::sync_with_stdio(false); cin.tie(NULL);
+	ios_base::sync_with_stdio(false);
+	cin.tie(nullptr); cout.tie(nullptr);
 
-	int N, M;
-	cin >> N >> M;
-	vector<vector<pair<int, int>>> v(N);
+	int m;
+	cin >> n >> m;
 
-	for (int i = 0; i < M; i++) {
-		int a, b, c;
-		cin >> a >> b >> c;
-		v[a - 1].emplace_back(b - 1, c);
+	adj.assign(n, vector<int>(n, INF));
+
+	for (int i = 0; i < m; i++) {
+		int s, e, w;
+		cin >> s >> e >> w;
+		adj[s - 1][e - 1] = min(adj[s - 1][e - 1], w);
 	}
 
-	vector<vector<int>> dist(N, vector<int>(N, INF));
-	for (int i = 0; i < N; i++) {
-		dijkstra(v, dist[i], i);
-	}
+	Floyd();
 
-	// 모든 정점에 대해 Dijkstra를 시행한다.
-	for (auto i : dist) {
-		for (auto j : i) {
+	for (const auto& i : adj) {
+		for (int j : i) {
 			if (j == INF) cout << "0 ";
 			else cout << j << ' ';
 		}
