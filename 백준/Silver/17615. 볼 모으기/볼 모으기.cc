@@ -37,7 +37,7 @@ int main() {
 	}
 	mn = min(cnt, mn);
 
-	cnt = 0; r = true;
+	cnt = 0; b = true;
 	// 파란 공을 오른쪽으로 넘길 때
 	for (int i = N - 1; i >= 0; i--) {
 		if (b && s[i] == 'R') b = false;
