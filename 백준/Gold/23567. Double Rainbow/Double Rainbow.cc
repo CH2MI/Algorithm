@@ -27,21 +27,15 @@ int main() {
 	int mn = (int)1e9;
 	np[v[0]]++;
 	p[v[0]]--;
+
 	while (r < n) {
 		if (Is_Rainbow(np)) {
 			if (Is_Rainbow(p)) {
 				mn = min(r - l, mn);
-
-				np[v[l]]--;
-				p[v[l]]++;
-				l++;
 			}
-			else {
-				np[v[l]]--;
-				p[v[l]]++;
-				l++;
-				
-			}
+			np[v[l]]--;
+			p[v[l]]++;
+			l++;
 		}
 		else {
 			np[v[r]]++;
