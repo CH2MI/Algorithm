@@ -3,7 +3,7 @@
 #include <stack>
 using namespace std;
 
-vector<vector<int>> adj, radj, scc;
+vector<vector<int>> adj, radj;
 vector<bool> visited;
 stack<int> st;
 
@@ -16,12 +16,10 @@ void DFS(int n) {
     st.push(n);
 }
 
-void RDFS(int k, int n) {
+void RDFS(int n) {
     visited[n] = true;
-    scc[k].push_back(n);
-
     for (const auto& i : radj[n])
-        if (!visited[i]) RDFS(k, i);
+        if (!visited[i]) RDFS(i);
 }
 
 int main() {
@@ -45,16 +43,15 @@ int main() {
         if (!visited[i]) DFS(i);
     }
 
-
     visited.assign(N, false);
+    int cnt = 0;
     while (!st.empty()) {
-        int n = st.top();
-        st.pop();
+        int n = st.top(); st.pop();
         if (visited[n]) continue;
-        scc.emplace_back();
-        RDFS((int)scc.size() - 1, n);
+        cnt++;
+        RDFS(n);
     }
 
-    if ((int)scc.size() == 1) cout << "Yes";
+    if (cnt == 1) cout << "Yes";
     else cout << "No";
 }
