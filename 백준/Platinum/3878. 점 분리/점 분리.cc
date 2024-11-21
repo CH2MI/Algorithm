@@ -74,10 +74,7 @@ bool separate(vector<point>& black, vector<point>& white) {
     vector<point> sum(bc);
     sum.insert(sum.end(), wc.begin(), wc.end());
     vector<point> sumc = ConvexHull(sum);
-
-    sort(bc.begin(), bc.end());
-    sort(wc.begin(), wc.end());
-    sort(sumc.begin(), sumc.end());
+    
     return (sumc != bc && sumc != wc);
 }
 
@@ -96,4 +93,3 @@ int main() {
         else cout << "NO\n";
     }
 }
-
