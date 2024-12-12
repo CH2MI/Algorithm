@@ -14,19 +14,13 @@ int main() {
    while (T--) {
        array<int, 2> s, e;
        cin >> s[0] >> s[1] >> e[0] >> e[1];
-       unordered_set<int> S, E;
 
-       int n; cin >> n;
+       int n, cnt = 0; cin >> n;
        for (int i = 0; i < n; i++) {
            array<int, 2> t; int r;
            cin >> t[0] >> t[1] >> r;
-           if (isIn(s, t, r)) S.insert(i);
-           if (isIn(e, t, r)) E.insert(i);
+           cnt += isIn(s, t, r) != isIn(e, t, r);
        }
-
-       int cnt = 0;
-       for (const int& i : S) cnt += E.find(i) == E.end();
-       for (const int& i : E) cnt += S.find(i) == S.end();
        cout << cnt << '\n';
    }
 }
