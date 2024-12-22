@@ -44,7 +44,7 @@ int main() {
                 int s = arr1[A + sz], e = arr1[B + sz];
                 update(A, e); update(B, s);
             }
-            if (Q) {
+            else {
                 if (A == query1(A, B) && B == query2(A, B)) cout << "YES\n";
                 else cout << "NO\n";
             }
