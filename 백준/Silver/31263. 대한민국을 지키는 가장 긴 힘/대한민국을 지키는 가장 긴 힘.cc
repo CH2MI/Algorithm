@@ -7,11 +7,12 @@ int main() {
 
     int N; cin >> N;
     string s; cin >> s;
-    vector<int> dp(N + 1);
-    for (int i = 1; i <= N; i++) {
-        dp[i] = dp[i - 1] + 1;
-        if (i > 1) dp[i] = min(dp[i], dp[i - 2] + 1);
-        if (i > 2 && stoi(s.substr(i - 3, 3)) < 642) dp[i] = min(dp[i], dp[i - 3] + 1);
+    int cnt = 0;
+    for (int i = 0; i < N;) {
+        ++cnt;
+        if (((i < N - 3 && s[i + 3] != '0') || i == N - 3) && stoi(s.substr(i, 3)) < 642 && stoi(s.substr(i, 3)) > 99) i += 3;
+        else if (((i < N - 2 && s[i + 2] != '0') || i == N - 2) && stoi(s.substr(i, 2)) > 9) i += 2;
+        else i++;
     }
-    cout << dp[N];
+    cout << cnt;
 }
