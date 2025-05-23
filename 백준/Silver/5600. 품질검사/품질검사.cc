@@ -17,17 +17,15 @@ int main() {
     }
 
     for (int i = 0; i < N; i++) {
-        for (int j = 0; j < N; j++) {
-            if (result[i][3]) continue;
+        if (result[i][3]) continue;
 
-            int cnt = 0;
-            for (int k = 0; k < 3; k++) cnt += v[result[i][k] - 1] == 1;
+        int cnt = 0;
+        for (int j = 0; j < 3; j++) cnt += v[result[i][j] - 1] == 1;
 
-            if (cnt == 2) {
-                if (v[result[i][0] - 1] == 2) v[result[i][0] - 1] = 0;
-                if (v[result[i][1] - 1] == 2) v[result[i][1] - 1] = 0;
-                if (v[result[i][2] - 1] == 2) v[result[i][2] - 1] = 0;
-            }
+        if (cnt == 2) {
+            if (v[result[i][0] - 1] == 2) v[result[i][0] - 1] = 0;
+            if (v[result[i][1] - 1] == 2) v[result[i][1] - 1] = 0;
+            if (v[result[i][2] - 1] == 2) v[result[i][2] - 1] = 0;
         }
     }
 
