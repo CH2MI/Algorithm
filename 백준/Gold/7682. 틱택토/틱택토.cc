@@ -7,10 +7,6 @@ int solve(string& s) {
         v[i] = s.substr(i * 3, 3);
     }
 
-    int x = count(s.begin(), s.end(), 'X'), o = count(s.begin(), s.end(), 'O');
-
-    if (x != o + 1 && x != o) return 0;
-
     int O = 0, X = 0;
 
     for (int i = 0; i < 3; i++) {
@@ -30,9 +26,11 @@ int solve(string& s) {
         if (v[2][0] == 'O') O = 1;
     }
 
+    int x = count(s.begin(), s.end(), 'X'), o = count(s.begin(), s.end(), 'O');
+    
     if (x == o + 1 && X && !O) return 1;
     if (x == o && !X && O) return 1;
-    if (x + o == 9 && !X && !O) return 1;
+    if (x + o == 9 && x == o + 1 && !X && !O) return 1;
     return 0;
 }
 
