@@ -5,7 +5,7 @@ int main() {
     cin.tie(nullptr)->sync_with_stdio(false);
 
     int N, Q; cin >> N >> Q;
-    vector<set<int>> v(N);
+    vector<unordered_set<int>> v(N);
 
     for (int i = 0; i < N; i++) {
         int n; cin >> n;
@@ -21,7 +21,7 @@ int main() {
             int a, b; cin >> a >> b;
             if (v[a - 1].size() < v[b - 1].size()) swap(v[a - 1], v[b - 1]);
             for (int j : v[b - 1]) v[a - 1].insert(j);
-            v[b - 1] = set<int>();
+            v[b - 1] = unordered_set<int>();
         }
         else {
             int a; cin >> a;
