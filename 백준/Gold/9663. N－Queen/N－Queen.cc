@@ -1,60 +1,48 @@
-#include <iostream>
-#include <vector>
+#include <bits/stdc++.h>
 using namespace std;
 
-int c = 0;
+int N;
+vector<int> v;
 
-bool Find(bool** selected, int x, int y, int N) {
-	for (int i = 1; i < N; i++) {
-		int x1 = x - i;
-		int x2 = x + i;
-		int y1 = y - i;
-		int y2 = y + i;
-		if (0 <= x1) {
-			if (selected[x1][y]) return false;
-			if (0 <= y1) if (selected[x1][y1]) return false;
-			if (y2 < N) if (selected[x1][y2]) return false;
-		}
-		if (x2 < N) {
-			if (selected[x2][y]) return false;
-			if (0 <= y1) if (selected[x2][y1]) return false;
-			if (y2 < N) if (selected[x2][y2]) return false;
-		}
-		if (0 <= y1) if(selected[x][y1]) return false;
-		if (y2 < N) if(selected[x][y2]) return false;
-	}
-	return true;
+int isPossible(int r, int c) {
+
+    // 열 검사
+    for (int i = 0; i < r; i++) {
+        if (v[i] == c) return 0;
+    }
+
+    // 대각선 검사
+    for (int i = 0; i < r; i++) {
+        int dr = abs(i - r);
+        int dc = abs(v[i] - c);
+
+        if (dr == dc) return 0;
+    }
+
+    return 1;
 }
 
-void dfs(bool** selected, vector<int> l, int x, int count, int N) {
-	if (count == N) {
-		c++;
-		return;
-	}
+int go(int cur) {
+    if (cur == N) return 1;
 
-	for (int i = 0; i < l.size(); i++) {
-		selected[x][l[i]] = true;
-		vector<int> t = l;
-		t.erase(t.begin() + i);
-		if (Find(selected, x, l[i], N))
-			dfs(selected, t, x + 1, count + 1, N);
-		selected[x][l[i]] = false;
-	}
+    int cnt = 0;
+
+        for (int i = 0; i < N; i++) {
+            if (isPossible(cur, i)) {
+                v[cur] = i;
+                cnt += go(cur + 1);
+                v[cur] = -1;
+            }
+    }
+
+    return cnt;
 }
 
 int main() {
-	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
-	
-	vector<int> l;
-	int N;
-	cin >> N;
-	bool** selected = new bool* [N];
-	for (int i = 0; i < N; i++) {
-		selected[i] = new bool[N];
-		l.push_back(i);
-		for (int j = 0; j < N; j++)
-			selected[i][j] = false;
-	}
-	dfs(selected, l, 0, 0, N);
-	cout << c;
+    cin.tie(nullptr)->sync_with_stdio(false);
+
+    cin >> N;
+    v.assign(N, -1);
+
+    cout << go(0);
 }
