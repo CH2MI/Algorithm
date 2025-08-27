@@ -3,44 +3,39 @@ using namespace std;
 
 int N;
 
+vector<int> visited;
 vector<vector<int>> capacity, flow;
 
-int Maximun_Flow(int source, int sink) {
+int dfs(int cur, int f, int sink) {
+    if (cur == sink) return 1;
 
+    visited[cur] = 1;
+
+    for (int nxt = 0; nxt < N; nxt++) {
+        int r = capacity[cur][nxt] - flow[cur][nxt];
+        if (r > 0 && !visited[nxt]) {
+            int amount = dfs(nxt, min(f, r), sink);
+            if (amount > 0) {
+                flow[cur][nxt] += amount;
+                flow[nxt][cur] -= amount;
+                return amount;
+            }
+
+        }
+    }
+
+    return 0;
+}
+
+int Maximun_Flow(int source, int sink) {
     int total_flow = 0;
 
     while (1) {
-        vector<int> parent(N, -1);
-        queue<int> q;
-        q.push(source);
-        parent[source] = source;
-
-        while (!q.empty() && parent[sink] == -1) {
-            int cur = q.front(); q.pop();
-
-            for (int nxt = 0; nxt < N; nxt++) {
-                if (capacity[cur][nxt] - flow[cur][nxt] > 0 && parent[nxt] == -1) {
-                    parent[nxt] = cur;
-                    q.push(nxt);
-                }
-            }
-        }
-
-        if (parent[sink] == -1) break;
-        int amount = INT_MAX;
-
-        for (int cur = sink; cur != source; cur = parent[cur]) {
-            amount = min(amount, capacity[parent[cur]][cur] - flow[parent[cur]][cur]);
-        }
-
-        for (int cur = sink; cur != source; cur = parent[cur]) {
-            flow[parent[cur]][cur] += amount;
-            flow[cur][parent[cur]] -= amount;
-        }
-
+        visited.assign(N, 0);
+        int amount = dfs(source, INT_MAX, sink);
+        if (!amount) break;
         total_flow += amount;
     }
-
     return total_flow;
 }
 
