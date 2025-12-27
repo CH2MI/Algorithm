@@ -2,11 +2,12 @@
 using namespace std;
 
 int main() {
-	int a, b, t;
-	while ((a = cin.get()) != EOF) {
-		a -= 48;
-		cin >> b;
-		cout << a + b << endl;
-		t = cin.get();
-	}
+    cin.tie(nullptr)->sync_with_stdio(false);
+
+    int a, b;
+    while (cin >> a >> b) {
+        cout << a + b << '\n';
+    }
+
+
 }
